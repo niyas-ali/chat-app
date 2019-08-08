@@ -13,26 +13,47 @@ config := &firebase.Config{
 }
 
 // ConnectionManager for managing all db related connections
-type ConnectionManager struct{}
+type ConnectionManager struct{
+   client struct
+}
 
 // Init initialize new db connection manager
 func (c *ConnectionManager) Init() {
-	config := &firebase.Config{
-		StorageBucket: "<BUCKET_NAME>.appspot.com",
-	}
-	opt := option.WithCredentialsFile("path/to/serviceAccountKey.json")
-	app, err := firebase.NewApp(context.Background(), config, opt)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	
+  // Use a service account
+  ctx := context.Background()
+  sa := option.WithCredentialsFile("configs/configuration.json")
+  app, err := firebase.NewApp(ctx, nil, sa)
+  if err != nil {
+    log.Fatalln(err)
+  }
 
-	client, err := app.Storage(context.Background())
-	if err != nil {
-		log.Fatalln(err)
-	}
+  client, err := app.Firestore(ctx)
+  if err != nil {
+    log.Fatalln(err)
+  }
+  defer client.Close()
+}
 
-	bucket, err := client.DefaultBucket()
-	if err != nil {
-		log.Fatalln(err)
-	}
+func (c *ConnectionManager) Add(){
+  _, _, err = client.Collection("users").Add(ctx, map[string]interface{}{
+       
+})
+if err != nil {
+        log.Fatalf("Failed adding record: %v", err)
+}
+}
+
+func (c *ConnectionManager) Read(){
+  iter := client.Collection("users").Documents(ctx)
+for {
+        doc, err := iter.Next()
+        if err == iterator.Done {
+                break
+        }
+        if err != nil {
+                log.Fatalf("Failed to iterate: %v", err)
+        }
+        fmt.Println(doc.Data())
+}
 }
