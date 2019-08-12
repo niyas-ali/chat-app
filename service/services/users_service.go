@@ -44,9 +44,8 @@ func (u *UsersService) DeleteUser(user model.User) (bool, error) {
 }
 
 //GetUser method
-func (u *UsersService) GetUser() (model.User, error) {
-	var user model.User
-	err := u.Engine.Find(&user)
+func (u *UsersService) GetUser(user model.User) (model.User, error) {
+	_, err := u.Engine.Get(&user)
 	if err != nil {
 		fmt.Printf("failed to get user %v", err)
 		return user, err

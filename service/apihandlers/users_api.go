@@ -1,6 +1,7 @@
 package apihandlers
 
 import (
+	"chat-app/service/model"
 	"chat-app/service/services"
 	"net/http"
 
@@ -24,22 +25,57 @@ func (api *UsersAPI) InitializeHandler(engine *xorm.Engine, handler *echo.Echo) 
 }
 
 func (api *UsersAPI) getUserHandler(c echo.Context) error {
-	//api.service.GetAllUsers();
-	return c.String(http.StatusOK, string(":::"))
+	var user model.User
+	if err := c.Bind(&user); err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	_user, err := api.service.GetUser(user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	return c.JSONPretty(http.StatusOK, _user, " ")
 }
 
 func (api *UsersAPI) getUsersHandler(c echo.Context) error {
-	return c.String(http.StatusOK, string(":::"))
+	users, err := api.service.GetAllUsers()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	return c.JSONPretty(http.StatusOK, users, " ")
 }
 
 func (api *UsersAPI) addUserHandler(c echo.Context) error {
-	return c.String(http.StatusOK, string(":::"))
+	var user model.User
+	if err := c.Bind(&user); err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	result, err := api.service.AddNewUser(user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	return c.JSONPretty(http.StatusOK, result, " ")
 }
 
 func (api *UsersAPI) deleteUserHandler(c echo.Context) error {
-	return c.String(http.StatusOK, string(":::"))
+	var user model.User
+	if err := c.Bind(&user); err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	result, err := api.service.DeleteUser(user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	return c.JSONPretty(http.StatusOK, result, " ")
 }
 
 func (api *UsersAPI) updateUserHandler(c echo.Context) error {
-	return c.String(http.StatusOK, string(":::"))
+	var user model.User
+	if err := c.Bind(&user); err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	result, err := api.service.UpdateUser(user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	return c.JSONPretty(http.StatusOK, result, " ")
 }

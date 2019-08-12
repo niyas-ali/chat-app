@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/go-xorm/xorm"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 // ConnectionManager for managing all db related connections
@@ -14,7 +15,6 @@ type ConnectionManager struct {
 
 // Init initialize new db connection manager
 func (c *ConnectionManager) Init() (*xorm.Engine, error) {
-
 	_engine, err := xorm.NewEngine("sqlite3", "./chat.db")
 	c.Engine = _engine
 	if err != nil {

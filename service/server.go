@@ -13,7 +13,8 @@ func main() {
 	fmt.Println("Server started ...")
 	e := echo.New()
 	e.Use(middleware.Logger())
-	database := connections.ConnectionManager{}
+	//e.Use(middleware.Recover())
+	database := &connections.ConnectionManager{}
 	database.Init()
 	_usersAPI := apihandlers.UsersAPI{}
 	_groupsAPI := apihandlers.GroupsAPI{}
