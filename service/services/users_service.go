@@ -42,6 +42,15 @@ func (u *UsersService) DeleteUser(user model.User) (bool, error) {
 	}
 	return true, nil
 }
+//DeleteUsers method
+func (u *UsersService) DeleteUsers(user []model.User) (bool, error) {
+	_, err := u.Engine.Delete(&user)
+	if err != nil {
+		fmt.Printf("failed to delete users %v", err)
+		return false, err
+	}
+	return true, nil
+}
 
 //GetUser method
 func (u *UsersService) GetUser(user model.User) (model.User, error) {

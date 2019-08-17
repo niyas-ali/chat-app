@@ -32,7 +32,24 @@ func (m *MessageService) DeleteMessage(message model.Message) (bool, error) {
 	}
 	return true, nil
 }
-
+//DeleteMessages method
+func (m *MessageService) DeleteMessages(message []model.Message) (bool, error) {
+	_, err := m.Engine.Delete(&message)
+	if err != nil {
+		fmt.Printf("failed to delete messages %v", err)
+		return false, err
+	}
+	return true, nil
+}
+//GetAllMessage method
+func (m *MessageService) GetMessage(message model.Message) (model.Message, error) {
+	_,err := m.Engine.Get(&message)
+	if err != nil {
+		fmt.Printf("failed to get message %v", err)
+		return message, err
+	}
+	return message, nil
+}
 //GetAllMessages method
 func (m *MessageService) GetAllMessages() ([]model.Message, error) {
 	var messages []model.Message
@@ -54,8 +71,8 @@ func (m *MessageService) AddMessageRecipient(recipient model.MessageRecipient) (
 	return true, nil
 }
 
-//GetAllMessageRecipiet method
-func (m *MessageService) GetAllMessageRecipiet() ([]model.MessageRecipient, error) {
+//GetAllMessageRecipient method
+func (m *MessageService) GetAllMessageRecipient() ([]model.MessageRecipient, error) {
 	var recipients []model.MessageRecipient
 	err := m.Engine.Find(&recipients)
 	if err != nil {
@@ -75,8 +92,8 @@ func (m *MessageService) DeleteMessageRecipient(recipient model.MessageRecipient
 	return true, nil
 }
 
-//DeleteManyMessageRecipient method
-func (m *MessageService) DeleteManyMessageRecipient(recipients []model.MessageRecipient) (bool, error) {
+//DeleteMessageRecipients method
+func (m *MessageService) DeleteMessageRecipients(recipients []model.MessageRecipient) (bool, error) {
 	_, err := m.Engine.Delete(&recipients)
 	if err != nil {
 		fmt.Printf("failed to delete message recipients %v", err)

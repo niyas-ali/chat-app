@@ -22,6 +22,5 @@ func main() {
 	_usersAPI.InitializeHandler(database.Engine, e)
 	_groupsAPI.InitializeHandler(database.Engine, e)
 	_messageAPI.InitializeHandler(database.Engine, e)
-
 	e.Logger.Fatal(e.Start(":1323"))
 }

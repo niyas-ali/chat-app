@@ -32,6 +32,15 @@ func (g *GroupService) DeleteGroup(group model.Group) (bool, error) {
 	}
 	return true, nil
 }
+//DeleteGroups method
+func (g *GroupService) DeleteGroups(group []model.Group) (bool, error) {
+	_, err := g.Engine.Delete(&group)
+	if err != nil {
+		fmt.Printf("failed to delete groups %v", err)
+		return false, err
+	}
+	return true, nil
+}
 
 //GetAllGroup method
 func (g *GroupService) GetAllGroup() ([]model.Group, error) {
@@ -43,7 +52,15 @@ func (g *GroupService) GetAllGroup() ([]model.Group, error) {
 	}
 	return groups, nil
 }
-
+//GetGroup method
+func (g *GroupService) GetGroup(group model.Group) (model.Group, error) {
+	_,err := g.Engine.Get(&group)
+	if err != nil {
+		fmt.Printf("failed to get all group %v", err)
+		return group, err
+	}
+	return group, nil
+}
 //AddUserGroup method
 func (g *GroupService) AddUserGroup(userGroup model.UserGroup) (bool, error) {
 	_, err := g.Engine.Insert(&userGroup)
@@ -75,8 +92,8 @@ func (g *GroupService) DeleteUserGroup(userGroup model.UserGroup) (bool, error) 
 	return true, nil
 }
 
-//DeleteManyUserGroup method
-func (g *GroupService) DeleteManyUserGroup(userGroups []model.UserGroup) (bool, error) {
+//DeleteUserGroups method
+func (g *GroupService) DeleteUserGroups(userGroups []model.UserGroup) (bool, error) {
 	_, err := g.Engine.Delete(&userGroups)
 	if err != nil {
 		fmt.Printf("failed to delete user groups %v", err)

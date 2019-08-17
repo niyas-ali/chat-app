@@ -21,6 +21,7 @@ func (api *UsersAPI) InitializeHandler(engine *xorm.Engine, handler *echo.Echo) 
 	handler.GET("/get-users", api.getUsersHandler)
 	handler.POST("/add-user", api.addUserHandler)
 	handler.DELETE("/delete-user", api.deleteUserHandler)
+	handler.DELETE("/delete-users", api.deleteUsersHandler)
 	handler.PUT("/update-user", api.updateUserHandler)
 }
 
@@ -62,6 +63,18 @@ func (api *UsersAPI) deleteUserHandler(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
 	result, err := api.service.DeleteUser(user)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	return c.JSONPretty(http.StatusOK, result, " ")
+}
+
+func (api *UsersAPI) deleteUsersHandler(c echo.Context) error {
+	var users []model.User
+	if err := c.Bind(&users); err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+	result, err := api.service.DeleteUsers(users)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
