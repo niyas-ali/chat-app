@@ -4,8 +4,9 @@ import "time"
 
 //Group model
 type Group struct {
-	ID          int
-	Name        string
-	CreatedDate time.Time
-	IsActive    bool
+	ID          int64     `xorm:"PK autoincr bigint"`
+	Name        string    `xorm:"varchar(200)"`
+	CreatedDate time.Time `xorm:"created"`
+	Updated     time.Time `xorm:"updated"`
+	IsActive    bool      `xorm:"not null"`
 }

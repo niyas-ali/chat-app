@@ -32,6 +32,7 @@ func (m *MessageService) DeleteMessage(message model.Message) (bool, error) {
 	}
 	return true, nil
 }
+
 //DeleteMessages method
 func (m *MessageService) DeleteMessages(message []model.Message) (bool, error) {
 	_, err := m.Engine.Delete(&message)
@@ -41,15 +42,17 @@ func (m *MessageService) DeleteMessages(message []model.Message) (bool, error) {
 	}
 	return true, nil
 }
+
 //GetAllMessage method
 func (m *MessageService) GetMessage(message model.Message) (model.Message, error) {
-	_,err := m.Engine.Get(&message)
+	_, err := m.Engine.Get(&message)
 	if err != nil {
 		fmt.Printf("failed to get message %v", err)
 		return message, err
 	}
 	return message, nil
 }
+
 //GetAllMessages method
 func (m *MessageService) GetAllMessages() ([]model.Message, error) {
 	var messages []model.Message
